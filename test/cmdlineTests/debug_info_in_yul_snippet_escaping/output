@@ -82,7 +82,6 @@ object "C_2" {
     code {
         {
             /// @src 0:265:278  "contract C {}"
-            mstore(64, 128)
             if callvalue() { revert(0, 0) }
             let _1 := datasize("C_2_deployed")
             codecopy(128, dataoffset("C_2_deployed"), _1)
@@ -94,7 +93,6 @@ object "C_2" {
         code {
             {
                 /// @src 0:265:278  "contract C {}"
-                mstore(64, 128)
                 revert(0, 0)
             }
         }
@@ -448,7 +446,6 @@ object "D_27" {
     code {
         {
             /// @src 0:279:599  "contract D /** @src 0:96:165  \"contract D {...\" *\/ {..."
-            mstore(64, 128)
             if callvalue() { revert(0, 0) }
             let _1 := datasize("D_27_deployed")
             codecopy(128, dataoffset("D_27_deployed"), _1)
@@ -539,7 +536,6 @@ object "D_27" {
             code {
                 {
                     /// @src 0:265:278  "contract C {}"
-                    mstore(64, 128)
                     if callvalue() { revert(0, 0) }
                     let _1 := datasize("C_2_deployed")
                     codecopy(128, dataoffset("C_2_deployed"), _1)
@@ -551,7 +547,6 @@ object "D_27" {
                 code {
                     {
                         /// @src 0:265:278  "contract C {}"
-                        mstore(64, 128)
                         revert(0, 0)
                     }
                 }
