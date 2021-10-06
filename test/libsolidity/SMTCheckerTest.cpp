@@ -59,6 +59,8 @@ SMTCheckerTest::SMTCheckerTest(string const& _filename): SyntaxTest(_filename, E
 	if (m_modelCheckerSettings.solvers.none() || m_modelCheckerSettings.engine.none())
 		m_shouldRun = false;
 
+	m_modelCheckerSettings.invariants = ModelCheckerInvariants::All();
+
 	auto const& ignoreCex = m_reader.stringSetting("SMTIgnoreCex", "no");
 	if (ignoreCex == "no")
 		m_ignoreCex = false;
@@ -66,6 +68,14 @@ SMTCheckerTest::SMTCheckerTest(string const& _filename): SyntaxTest(_filename, E
 		m_ignoreCex = true;
 	else
 		BOOST_THROW_EXCEPTION(runtime_error("Invalid SMT counterexample choice."));
+
+	auto const& ignoreInv = m_reader.stringSetting("SMTIgnoreInv", "no");
+	if (ignoreInv == "no")
+		m_ignoreInv = false;
+	else if (ignoreInv == "yes")
+		m_ignoreInv = true;
+	else
+		BOOST_THROW_EXCEPTION(runtime_error("Invalid SMT invariant choice."));
 
 	auto const& ignoreOSSetting = m_reader.stringSetting("SMTIgnoreOS", "none");
 	for (string const& os: ignoreOSSetting | ranges::views::split(',') | ranges::to<vector<string>>())
@@ -108,4 +118,13 @@ void SMTCheckerTest::filterObtainedErrors()
 
 	if (m_ignoreCex)
 		removeCex(m_errorList);
+
+	if (m_ignoreInv)
+	{
+		vector<SyntaxTestError> errorList;
+		for (auto&& e: m_errorList)
+			if (e.errorId  && e.errorId->error != 1180)
+				errorList.emplace_back(move(e));
+		swap(errorList, m_errorList);
+	}
 }
