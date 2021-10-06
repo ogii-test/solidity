@@ -518,6 +518,23 @@ which has the following form:
         "source2.sol": ["contract2", "contract3"]
     }
 
+Reported Inferred Inductive Invariants
+======================================
+
+For properties that were proved safe with the CHC engine,
+the SMTChecker can retrieve inductive invariants that were inferred by the Horn
+solver as part of the proof.
+Currently two types of invariants can be reported to the user:
+
+- Contract Invariants: these are properties over the contract's state variables
+  that are true before and after every possible transaction that the contract may ever run. For example, ``x * y = k``.
+- Reentrancy Properties: they represent the behavior of the contract
+  in the presence of external calls to unknown code. These properties can express a relation
+  between the value of the state variables before and after the external call, where the external call is free to do anything, including making reentrant calls to the analyzed contract. Primed variables represent the state variables' values after said external call. Example: ``lock -> x = x'``.
+
+The user can choose the type of invariants to be reported using the CLI option ``--model-checker-invariants "contract,reentrancy"`` or as an array in the field ``settings.modelChecker.invariants`` in the :ref:`JSON input<compiler-api>`.
+By default the SMTChecker does not report invariants.
+
 Division and Modulo With Slack Variables
 ========================================
 
