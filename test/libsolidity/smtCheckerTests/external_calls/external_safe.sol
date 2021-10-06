@@ -17,3 +17,4 @@ contract C {
 // ====
 // SMTEngine: all
 // ----
+// Info 1180: Contract invariant(s) for :C:\n!(x >= 11)\nReentrancy property(ies) for :C:\n!(<errorCode> = 1)\n((!(x <= 10) || !(<errorCode> >= 3)) && (!(x <= 10) || !(x' >= 11)))\n

@@ -18,3 +18,4 @@ contract C
 // ====
 // SMTEngine: all
 // ----
+// Info 1180: Reentrancy property(ies) for :C:\n!(<errorCode> >= 2)\n(<errorCode> <= 0)\n

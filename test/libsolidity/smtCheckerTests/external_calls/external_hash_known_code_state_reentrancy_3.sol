@@ -41,3 +41,4 @@ contract C {
 // ====
 // SMTEngine: all
 // ----
+// Info 1180: Contract invariant(s) for :C:\n((insidef || (z <= 0)) && (y <= 0))\nReentrancy property(ies) for :C:\n((!insidef || !(<errorCode> >= 2)) && (!(y <= 0) || (y' <= 0)) && (insidef' || !insidef))\n((!insidef || !(<errorCode> >= 3)) && (insidef' || !insidef))\n

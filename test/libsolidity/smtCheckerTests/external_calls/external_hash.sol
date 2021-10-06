@@ -28,3 +28,4 @@ contract C {
 // SMTIgnoreCex: yes
 // ----
 // Warning 6328: (390-412): CHC: Assertion violation happens here.
+// Info 1180: Reentrancy property(ies) for :C:\n!(<errorCode> = 1)\n
