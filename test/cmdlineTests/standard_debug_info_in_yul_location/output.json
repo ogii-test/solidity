@@ -1459,7 +1459,7 @@ object \"D_72\" {
                 mstore(4, 0x11)
                 revert(0, 0x24)
             }
-            sstore(/** @src 0:210:226  \"stateVar = _init\" */ 0x00, /** @src 1:91:166  \"contract D is C(3)...\" */ add(/** @src 1:107:108  \"3\" */ 0x03, /** @src 1:91:166  \"contract D is C(3)...\" */ var_init2))
+            sstore(/** @src -1:-1:-1 */ 0, /** @src 1:91:166  \"contract D is C(3)...\" */ add(/** @src 1:107:108  \"3\" */ 0x03, /** @src 1:91:166  \"contract D is C(3)...\" */ var_init2))
         }
     }
     /// @use-src 0:\"C\", 1:\"D\"

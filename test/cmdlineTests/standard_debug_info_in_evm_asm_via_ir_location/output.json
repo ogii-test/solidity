@@ -516,9 +516,7 @@ tag_8:
   0x03
     /* \"D\":91:166  contract D is C(3)... */
   add
-    /* \"C\":203:219  stateVar = _init */
   0x00
-    /* \"D\":91:166  contract D is C(3)... */
   sstore
     /* \"D\":113:164  constructor(int _init2)... */
   jump\t// out
