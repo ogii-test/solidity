@@ -28,6 +28,7 @@
 #include <libyul/optimiser/SSAValueTracker.h>
 #include <libyul/optimiser/DataFlowAnalyzer.h>
 #include <libyul/optimiser/KnowledgeBase.h>
+#include <libyul/ControlFlowSideEffectsCollector.h>
 #include <libyul/AST.h>
 
 #include <libsolutil/CommonData.h>
@@ -53,6 +54,8 @@ void RedundantStoreEliminator::run(OptimiserStepContext& _context, Block& _ast)
 		_context.dialect,
 		CallGraphGenerator::callGraph(_ast)
 	);
+	ControlFlowSideEffectsCollector controlFlowSideEffects(_context.dialect, _ast);
+
 	SSAValueTracker ssaValues;
 	ssaValues(_ast);
 	map<YulString, AssignedValue> values;
@@ -66,7 +69,13 @@ void RedundantStoreEliminator::run(OptimiserStepContext& _context, Block& _ast)
 	values[YulString{thirtyTwo}] = AssignedValue{&thirtyTwoLiteral, {}};
 
 	bool const ignoreMemory = MSizeFinder::containsMSize(_context.dialect, _ast);
-	RedundantStoreEliminator rse{_context.dialect, functionSideEffects, values, ignoreMemory};
+	RedundantStoreEliminator rse{
+		_context.dialect,
+		functionSideEffects,
+		controlFlowSideEffects.functionSideEffects(),
+		values,
+		ignoreMemory
+	};
 	rse(_ast);
 	rse.changeUndecidedTo(State::Unused, Location::Memory);
 	rse.changeUndecidedTo(State::Used, Location::Storage);
@@ -83,19 +92,25 @@ void RedundantStoreEliminator::operator()(FunctionCall const& _functionCall)
 	for (Operation const& op: operationsFromFunctionCall(_functionCall))
 		applyOperation(op);
 
-	// TODO handle reverts of user-defined functions
+	ControlFlowSideEffects sideEffects;
+	if (auto builtin = m_dialect.builtin(_functionCall.functionName.name))
+		sideEffects = builtin->controlFlowSideEffects;
+	else
+		sideEffects = m_controlFlowSideEffects.at(_functionCall.functionName.name);
 
-	if (BuiltinFunction const* f = m_dialect.builtin(_functionCall.functionName.name))
-		if (f->controlFlowSideEffects.terminates)
-		{
-			changeUndecidedTo(State::Unused, Location::Memory);
-			changeUndecidedTo(
-				f->controlFlowSideEffects.reverts ?
-				State::Unused :
-				State::Used,
-				Location::Storage
-			);
-		}
+	if (!sideEffects.canContinue)
+	{
+		changeUndecidedTo(State::Unused, Location::Memory);
+
+		// TODO all three bools can be false for infinite recursion.
+		// Is it fine to set storage to "unused" in this case (out of gas will lead to revert anyway)?
+		changeUndecidedTo(
+			sideEffects.canTerminate ?
+			State::Used :
+			State::Unused,
+			Location::Storage
+		);
+	}
 }
 
 void RedundantStoreEliminator::operator()(FunctionDefinition const& _functionDefinition)

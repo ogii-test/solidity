@@ -52,12 +52,14 @@ public:
 	explicit RedundantStoreEliminator(
 		Dialect const& _dialect,
 		std::map<YulString, SideEffects> const& _functionSideEffects,
+		std::map<YulString, ControlFlowSideEffects> const& _controlFlowSideEffects,
 		std::map<YulString, AssignedValue> const& _ssaValues,
 		bool _ignoreMemory
 	):
 		RedundantStoreBase(_dialect),
 		m_ignoreMemory(_ignoreMemory),
 		m_functionSideEffects(_functionSideEffects),
+		m_controlFlowSideEffects(_controlFlowSideEffects),
 		m_ssaValues(_ssaValues)
 	{}
 
@@ -102,6 +104,7 @@ private:
 
 	bool const m_ignoreMemory;
 	std::map<YulString, SideEffects> const& m_functionSideEffects;
+	std::map<YulString, ControlFlowSideEffects> const& m_controlFlowSideEffects;
 	std::map<YulString, AssignedValue> const& m_ssaValues;
 
 	std::map<Statement const*, Operation> m_storeOperations;
