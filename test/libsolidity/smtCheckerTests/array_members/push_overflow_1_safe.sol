@@ -9,3 +9,5 @@ contract C {
 // ====
 // SMTEngine: all
 // SMTIgnoreInv: yes
+// ----
+// Info 1180: Contract invariant(s) for :C:\n(!((x[x.length] := 23)[0] >= 43) && !((x[x.length] := 23)[0] <= 41))\n

@@ -22,6 +22,4 @@ contract C
 // SMTIgnoreInv: yes
 // SMTIgnoreOS: macos
 // ----
-// Warning 2072: (127-166): Unused local variable.
-// Warning 2072: (191-207): Unused local variable.
-// Warning 6328: (227-242): CHC: Assertion violation happens here.
+// Info 1180: Reentrancy property(ies) for :C:\n(!(<errorCode> >= 2) && (!(x <= 0) || (x' <= 0)))\n

@@ -27,3 +27,5 @@ contract C {
 // ====
 // SMTEngine: all
 // SMTIgnoreInv: yes
+// ----
+// Info 1180: Reentrancy property(ies) for :C:\n((((x' + ((- 1) * x)) = 0) || !lock) && (<errorCode> <= 0) && (lock' || !lock))\n
