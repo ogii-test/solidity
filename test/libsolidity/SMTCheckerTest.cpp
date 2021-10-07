@@ -19,6 +19,8 @@
 #include <test/libsolidity/SMTCheckerTest.h>
 #include <test/Common.h>
 
+#include <range/v3/action/remove_if.hpp>
+
 using namespace std;
 using namespace solidity;
 using namespace solidity::langutil;
@@ -120,11 +122,7 @@ void SMTCheckerTest::filterObtainedErrors()
 		removeCex(m_errorList);
 
 	if (m_ignoreInv)
-	{
-		vector<SyntaxTestError> errorList;
-		for (auto&& e: m_errorList)
-			if (e.errorId  && e.errorId->error != 1180)
-				errorList.emplace_back(move(e));
-		swap(errorList, m_errorList);
-	}
+		ranges::actions::remove_if(m_errorList, [](auto&& _error) {
+			return _error.errorId && _error.errorId->error != 1180;
+		});
 }
