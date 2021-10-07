@@ -330,7 +330,7 @@ Expression Z3Interface::fromZ3Expr(z3::expr const& _expr)
 
 	}
 	else if (kind == Z3_OP_MUL)
-		return Expression::mkTimes(arguments);
+		return Expression::mkMul(arguments);
 	else if (kind == Z3_OP_DIV)
 	{
 
