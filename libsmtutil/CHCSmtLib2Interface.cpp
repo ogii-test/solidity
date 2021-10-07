@@ -118,7 +118,6 @@ tuple<CheckResult, Expression, CHCSolverInterface::CexGraph> CHCSmtLib2Interface
 	else
 		result = CheckResult::ERROR;
 
-	// TODO collect invariants or counterexamples.
 	return {result, Expression(true), {}};
 }
 
