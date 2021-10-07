@@ -527,7 +527,7 @@ solver as part of the proof.
 Currently two types of invariants can be reported to the user:
 
 - Contract Invariants: these are properties over the contract's state variables
-  that are true before and after every possible transaction that the contract may ever run. For example, ``x * y = k``.
+  that are true before and after every possible transaction that the contract may ever run. For example, ``x >= y``.
 - Reentrancy Properties: they represent the behavior of the contract
   in the presence of external calls to unknown code. These properties can express a relation
   between the value of the state variables before and after the external call, where the external call is free to do anything, including making reentrant calls to the analyzed contract. Primed variables represent the state variables' values after said external call. Example: ``lock -> x = x'``.
