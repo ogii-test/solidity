@@ -1746,6 +1746,17 @@ void CHC::checkVerificationTargets()
 			for (auto const& inv: m_invariants.at(pred))
 				msg += inv + "\n";
 		}
+		if (msg.find("<errorCode>") != string::npos)
+		{
+			set<unsigned> seenErrors;
+			msg += "<errorCode> = 0 -> no errors\n";
+			for (auto const& target: verificationTargets)
+				if (!seenErrors.count(target.errorId))
+				{
+					seenErrors.insert(target.errorId);
+					msg += "<errorCode> = " + to_string(target.errorId) + " -> " + ModelCheckerTargets::targetTypeToString.at(target.type) + "\n";
+				}
+		}
 		if (!msg.empty())
 			m_errorReporter.info(1180_error, msg);
 	}
