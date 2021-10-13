@@ -31,6 +31,7 @@
 #include <libsolidity/ast/TypeProvider.h>
 
 #include <libsmtutil/CHCSmtLib2Interface.h>
+#include <liblangutil/CharStreamProvider.h>
 #include <libsolutil/Algorithms.h>
 
 #ifdef HAVE_Z3_DLOPEN
@@ -1754,7 +1755,9 @@ void CHC::checkVerificationTargets()
 				if (!seenErrors.count(target.errorId))
 				{
 					seenErrors.insert(target.errorId);
-					msg += "<errorCode> = " + to_string(target.errorId) + " -> " + ModelCheckerTargets::targetTypeToString.at(target.type) + "\n";
+					string loc = string(m_charStreamProvider.charStream(*target.errorNode->location().sourceName).text(target.errorNode->location()));
+					msg += "<errorCode> = " + to_string(target.errorId) + " -> " + ModelCheckerTargets::targetTypeToString.at(target.type) + " at " + loc + "\n";
+
 				}
 		}
 		if (!msg.empty())
