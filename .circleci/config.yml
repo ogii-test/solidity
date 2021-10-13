@@ -647,14 +647,14 @@ jobs:
           <<: *steps_restore_cache_homebrew_workaround
       - restore_cache:
           keys:
-            - dependencies-osx-{{ arch }}-{{ checksum ".circleci/osx_install_dependencies.sh" }}
+            - dependencies-osx-{{ arch }}-{{ checksum ".circleci/osx_install_dependencies.sh" }}-invalidate-6LLPqBpyA9
       # DO NOT EDIT between here and save_cache, but rather edit ./circleci/osx_install_dependencies.sh
       # WARNING! If you do edit anything here instead, remember to invalidate the cache manually.
       - run:
           name: Install build dependencies
           command: ./.circleci/osx_install_dependencies.sh --no-homebrew-update
       - save_cache:
-          key: dependencies-osx-{{ arch }}-{{ checksum ".circleci/osx_install_dependencies.sh" }}
+          key: dependencies-osx-{{ arch }}-{{ checksum ".circleci/osx_install_dependencies.sh" }}-invalidate-6LLPqBpyA9
           paths:
             - /usr/local/bin
             - /usr/local/sbin
@@ -686,7 +686,7 @@ jobs:
           <<: *steps_restore_cache_homebrew_workaround
       - restore_cache:
           keys:
-            - dependencies-osx-{{ arch }}-{{ checksum ".circleci/osx_install_dependencies.sh" }}
+            - dependencies-osx-{{ arch }}-{{ checksum ".circleci/osx_install_dependencies.sh" }}-invalidate-6LLPqBpyA9
       - attach_workspace:
           at: .
       - run: *run_soltest
@@ -705,7 +705,7 @@ jobs:
           <<: *steps_restore_cache_homebrew_workaround
       - restore_cache:
           keys:
-            - dependencies-osx-{{ arch }}-{{ checksum ".circleci/osx_install_dependencies.sh" }}
+            - dependencies-osx-{{ arch }}-{{ checksum ".circleci/osx_install_dependencies.sh" }}-invalidate-6LLPqBpyA9
       - attach_workspace:
           at: .
       - run: *run_cmdline_tests
