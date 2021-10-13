@@ -42,26 +42,6 @@ namespace solidity::frontend::smt
 namespace
 {
 
-// Infix operators with format replacements.
-static map<string, string> const infixOps{
-	{"and", "&&"},
-	{"or", "||"},
-	{"implies", "=>"},
-	{"=", "="},
-	{">", ">"},
-	{">=", ">="},
-	{"<", "<"},
-	{"<=", "<="},
-	{"+", "+"},
-	{"-", "-"},
-	{"*", "*"},
-	{"/", "/"},
-	{"div", "/"},
-	{"mod", "%"}
-};
-static set<string> const arrayOps{"select", "store", "const_array"};
-static set<string> const ufs{"keccak256", "sha256", "ripemd160", "ecrecover"};
-
 string formatDatatypeAccessor(smtutil::Expression const& _expr, vector<string> const& _args)
 {
 	auto const& op = _expr.name;
@@ -122,6 +102,7 @@ string formatArrayOp(smtutil::Expression const& _expr, vector<string> const& _ar
 	if (_expr.name == "select")
 	{
 		auto const& a0 = _args.at(0);
+		static set<string> const ufs{"keccak256", "sha256", "ripemd160", "ecrecover"};
 		if (ufs.count(a0) || starts_with(a0, "t_function_abi"))
 			return _args.at(0) + "(" + _args.at(1) + ")";
 		return _args.at(0) + "[" + _args.at(1) + "]";
@@ -168,10 +149,28 @@ string toSolidityStr(smtutil::Expression const& _expr)
 	if (starts_with(op, "dt_accessor"))
 		return formatDatatypeAccessor(_expr, strArgs);
 
+	// Infix operators with format replacements.
+	static map<string, string> const infixOps{
+		{"and", "&&"},
+		{"or", "||"},
+		{"implies", "=>"},
+		{"=", "="},
+		{">", ">"},
+		{">=", ">="},
+		{"<", "<"},
+		{"<=", "<="},
+		{"+", "+"},
+		{"-", "-"},
+		{"*", "*"},
+		{"/", "/"},
+		{"div", "/"},
+		{"mod", "%"}
+	};
 	// Some of these (and, or, +, *) may have >= 2 arguments from z3.
 	if (infixOps.count(op))
 		return formatInfixOp(infixOps.at(op), strArgs);
 
+	static set<string> const arrayOps{"select", "store", "const_array"};
 	if (arrayOps.count(op))
 		return formatArrayOp(_expr, strArgs);
 
