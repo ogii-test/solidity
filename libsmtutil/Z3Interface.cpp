@@ -327,13 +327,11 @@ Expression Z3Interface::fromZ3Expr(z3::expr const& _expr)
 	{
 		smtAssert(arguments.size() == 2, "");
 		return arguments[0] - arguments[1];
-
 	}
 	else if (kind == Z3_OP_MUL)
 		return Expression::mkMul(arguments);
 	else if (kind == Z3_OP_DIV)
 	{
-
 		smtAssert(arguments.size() == 2, "");
 		return arguments[0] / arguments[1];
 	}
