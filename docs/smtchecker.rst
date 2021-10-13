@@ -412,7 +412,7 @@ is already "locked", so it would not be possible to change the value of ``x``,
 regardless of what the unknown called code does.
 
 If we "forget" to use the ``mutex`` modifier on function ``set``, the
-SMTChecker is able to synthesize the behavior of the externally called code so
+SMTChecker is able to synthesize the behaviour of the externally called code so
 that the assertion fails:
 
 .. code-block:: text
@@ -527,7 +527,7 @@ solver as part of the proof.
 Currently two types of invariants can be reported to the user:
 
 - Contract Invariants: these are properties over the contract's state variables
-  that are true before and after every possible transaction that the contract may ever run. For example, ``x >= y``.
+  that are true before and after every possible transaction that the contract may ever run. For example, ``x >= y``, where ``x`` and ``y`` are a contract's state variables.
 - Reentrancy Properties: they represent the behavior of the contract
   in the presence of external calls to unknown code. These properties can express a relation
   between the value of the state variables before and after the external call, where the external call is free to do anything, including making reentrant calls to the analyzed contract. Primed variables represent the state variables' values after said external call. Example: ``lock -> x = x'``.
