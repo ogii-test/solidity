@@ -71,6 +71,7 @@ public:
 	/// Executes the requested operation (compilation, assembling, standard JSON, etc.) and prints
 	/// results to the terminal.
 	/// @throws CommandLineExecutionError if execution fails due to errors in the input files.
+	/// @throws CommandLineOutputError if creating output files or writing to them fails.
 	void processInput();
 
 	CommandLineOptions const& options() const { return m_options; }
