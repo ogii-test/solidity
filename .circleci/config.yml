@@ -163,13 +163,20 @@ defaults:
   - steps_restore_cache_homebrew_workaround: &steps_restore_cache_homebrew_workaround
       steps:
         - run:
-            # FIXME: For some reason restore_cache fails saying that it cannot remove the scm/ dir.
-            # The directory contains only two files: `git` (wrapper script over git) and `svn` (symlink
-            # to `git`). This looks like a bug in restore_cache. Removing scm/ is a workaround.
+            # FIXME: Remove this workaround when CircleCI fixes restore_cache.
+            # Homebrew has recently replaced one of its dirs with a symlink to another.
+            # This makes tar used by restore_cache fail - the image contains an older version of
+            # Homebrew installed where it's a directory and tar refuses to overwrite a dir with a link.
+            # Removing the directory manually is a workaround that works only in case we do have
+            # cached files to restore. If we don't, we still need this dir files because it contains
+            # a git wrapper that Homebrew uses to update itself. The solution is to just rename the
+            # dir and create a symlink. This way tar will overwrite it without complaining.
             # See https://github.com/ethereum/solidity/pull/12106 for more details.
             name: Workaround for restore_cache + /usr/local/Homebrew/Library/Homebrew/shims/scm/
             command: |
-              rm -r /usr/local/Homebrew/Library/Homebrew/shims/scm/
+              cd /usr/local/Homebrew/Library/Homebrew/shims/
+              mv scm/ scm-old/
+              ln -s scm-old/ scm
 
   - test_ubuntu1604_clang: &test_ubuntu1604_clang
       docker:
