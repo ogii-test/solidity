@@ -61,8 +61,6 @@ SMTCheckerTest::SMTCheckerTest(string const& _filename): SyntaxTest(_filename, E
 	if (m_modelCheckerSettings.solvers.none() || m_modelCheckerSettings.engine.none())
 		m_shouldRun = false;
 
-	m_modelCheckerSettings.invariants = ModelCheckerInvariants::All();
-
 	auto const& ignoreCex = m_reader.stringSetting("SMTIgnoreCex", "no");
 	if (ignoreCex == "no")
 		m_ignoreCex = false;
@@ -73,9 +71,9 @@ SMTCheckerTest::SMTCheckerTest(string const& _filename): SyntaxTest(_filename, E
 
 	auto const& ignoreInv = m_reader.stringSetting("SMTIgnoreInv", "no");
 	if (ignoreInv == "no")
-		m_ignoreInv = false;
+		m_modelCheckerSettings.invariants = ModelCheckerInvariants::All();
 	else if (ignoreInv == "yes")
-		m_ignoreInv = true;
+		m_modelCheckerSettings.invariants = ModelCheckerInvariants::None();
 	else
 		BOOST_THROW_EXCEPTION(runtime_error("Invalid SMT invariant choice."));
 
@@ -120,9 +118,4 @@ void SMTCheckerTest::filterObtainedErrors()
 
 	if (m_ignoreCex)
 		removeCex(m_errorList);
-
-	if (m_ignoreInv)
-		ranges::actions::remove_if(m_errorList, [](auto&& _error) {
-			return _error.errorId && _error.errorId->error != 1180;
-		});
 }

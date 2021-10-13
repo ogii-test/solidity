@@ -50,7 +50,7 @@ protected:
 	SMTIgnoreCex: `yes`, `no`, where the default is `no`.
 		Set in m_ignoreCex.
 	SMTIgnoreInv: `yes`, `no`, where the default is `no`.
-		Set in m_ignoreInv.
+		Set in m_modelCheckerSettings.
 	SMTShowUnproved: `yes`, `no`, where the default is `yes`.
 		Set in m_modelCheckerSettings.
 	SMTSolvers: `all`, `cvc4`, `z3`, `none`, where the default is `all`.
@@ -60,7 +60,6 @@ protected:
 	ModelCheckerSettings m_modelCheckerSettings;
 
 	bool m_ignoreCex = false;
-	bool m_ignoreInv = false;
 };
 
 }
