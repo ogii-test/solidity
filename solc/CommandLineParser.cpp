@@ -806,7 +806,7 @@ General Information)").c_str(),
 			g_strModelCheckerInvariants.c_str(),
 			po::value<string>()->value_name("default,all,contract,reentrancy")->default_value("default"),
 			"Select whether to report inferred contract inductive invariants."
-			"Multiple types of invariants can be selected at the same time, separated by a comma and no spaces."
+			" Multiple types of invariants can be selected at the same time, separated by a comma and no spaces."
 			" By default no invariants are reported."
 		)
 		(
