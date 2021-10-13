@@ -10,4 +10,4 @@ contract C {
 // SMTEngine: all
 // SMTIgnoreInv: yes
 // ----
-// Info 1180: Contract invariant(s) for :C:\n(true && true)\n
+// Warning 6328: (134-151): CHC: Assertion violation happens here.\nCounterexample:\n\na = 0\n\nTransaction trace:\nC.constructor()\nC.f(0)
