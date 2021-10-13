@@ -114,10 +114,36 @@ Their values can only be passed to them explicitly at the point of invocation.
 Explicit returns from a modifier or function body only leave the current
 modifier or function body. Return variables are assigned and
 control flow continues after the ``_`` in the preceding modifier.
+There is however an exception to this:
 
 .. warning::
-    In an earlier version of Solidity, ``return`` statements in functions
-    having modifiers behaved differently.
+    In the old EVM backend of Solidity, the code example below behaved differently.
+
+.. code-block:: solidity
+
+    // SPDX-License-Identifier: GPL-3.0
+    pragma solidity >=0.7.1 <0.9.0;
+
+    contract C {
+        bool active;
+        constructor() { active = true; }
+        modifier mod()
+        {
+            _;
+            active = false;
+            _;
+        }
+        function foo() external mod payable returns(uint)
+        {
+            if (active)
+                return 1337;
+        }
+    }
+
+When using the old EVM backend, a call to ``C.foo()`` will return ``0`` because
+the return variable in ``foo`` was never explicitly assigned.
+In the new Yul backend ``C.foo()`` will return ``1337`` as it treats this case
+differently.
 
 An explicit return from a modifier with ``return;`` does not affect the values returned by the function.
 The modifier can, however, choose not to execute the function body at all and in that case the return
