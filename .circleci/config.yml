@@ -636,19 +636,16 @@ jobs:
       MAKEFLAGS: -j 5
     steps:
       - checkout
-      - when:
-          condition: true
-          <<: *steps_restore_cache_homebrew_workaround
       - restore_cache:
           keys:
-            - dependencies-osx-{{ arch }}-{{ checksum ".circleci/osx_install_dependencies.sh" }}
+            - dependencies-osx-{{ checksum ".circleci/osx_install_dependencies.sh" }}
       # DO NOT EDIT between here and save_cache, but rather edit ./circleci/osx_install_dependencies.sh
       # WARNING! If you do edit anything here instead, remember to invalidate the cache manually.
       - run:
           name: Install build dependencies
           command: ./.circleci/osx_install_dependencies.sh
       - save_cache:
-          key: dependencies-osx-{{ arch }}-{{ checksum ".circleci/osx_install_dependencies.sh" }}
+          key: dependencies-osx-{{ checksum ".circleci/osx_install_dependencies.sh" }}
           paths:
             - /usr/local/bin
             - /usr/local/sbin
