@@ -89,14 +89,14 @@ jobs:
       - run: |
           today=$(date +%s)
           lastchange=$(stat -f '%m' /usr/local/Cellar)
-          if [ "/usr/local/Cellar" -nt "/usr/local/Homebrew/Library/Homebrew/shims/scm1/" ]; then
-             echo "test"
+          if [ "/usr/local/Cellar" -ot "/usr/local/Homebrew/Library/Homebrew/shims/scm1/" ]; then
+             mv /usr/local/Homebrew/Library/Homebrew/shims/scm1/ /usr/local/Homebrew/Library/Homebrew/shims/scm/
           fi
       - run:
           name: Install build dependencies
           command: ./.circleci/osx_install_dependencies.sh
       - save_cache:
-          key: dependencies-osx-{{ checksum ".circleci/osx_install_dependencies.sh" }}
+          key: dependencies-osx-{{ checksum ".circleci/osx_install_dependencies.sh" }}-b
           paths:
             - /usr/local/bin
             - /usr/local/sbin
