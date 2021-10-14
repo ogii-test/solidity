@@ -100,15 +100,15 @@ jobs:
             - /usr/local/include
             - /usr/local/Cellar
             - /usr/local/Homebrew
-      - run: *run_build
-      - store_artifacts: *artifacts_solc
-      - store_artifacts: *artifacts_tools
-      - persist_to_workspace:
-          root: .
-          paths:
-            - build/solc/solc
-            - build/test/soltest
-            - build/test/tools/solfuzzer
+      #- run: *run_build
+      #- store_artifacts: *artifacts_solc
+      #- store_artifacts: *artifacts_tools
+      #- persist_to_workspace:
+          #root: .
+          #paths:
+            #- build/solc/solc
+            #- build/test/soltest
+            #- build/test/tools/solfuzzer
             
 workflows:
   version: 2
