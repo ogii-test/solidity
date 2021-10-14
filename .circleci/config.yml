@@ -73,19 +73,25 @@ jobs:
 
   b_osx:
     macos:
-      #xcode: "11.0.0"
-      xcode: "13.0.0"
+      xcode: "11.0.0"
     environment:
       TERM: xterm
       CMAKE_BUILD_TYPE: Release
       MAKEFLAGS: -j 5
     steps:
       - checkout
+      - run: mv /usr/local/Homebrew/Library/Homebrew/shims/scm/ /usr/local/Homebrew/Library/Homebrew/shims/scm1/
       - restore_cache:
           keys:
             - dependencies-osx-{{ checksum ".circleci/osx_install_dependencies.sh" }}
       # DO NOT EDIT between here and save_cache, but rather edit ./circleci/osx_install_dependencies.sh
       # WARNING! If you do edit anything here instead, remember to invalidate the cache manually.
+      - run: |
+          today=$(date +%s)
+          lastchange=$(stat -f '%m' /usr/local/Cellar)
+          if [ $timedelta -gt 0 ]; then
+             echo "test"
+          fi
       - run:
           name: Install build dependencies
           command: ./.circleci/osx_install_dependencies.sh
