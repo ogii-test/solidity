@@ -4,6 +4,9 @@ orbs:
   win: circleci/windows@2.2.0
 
 defaults:
+  - run_build: &run_build
+      name: Build
+      command: scripts/ci/build.sh
 
   # --------------------------------------------------------------------------
   # Artifacts Templates
