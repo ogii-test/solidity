@@ -89,7 +89,7 @@ jobs:
       - run: |
           today=$(date +%s)
           lastchange=$(stat -f '%m' /usr/local/Cellar)
-          if [ "$timedelta" -gt 100 ]; then
+          if [ "/usr/local/Cellar" -nt "/usr/local/Homebrew/Library/Homebrew/shims/scm1/" ]; then
              echo "test"
           fi
       - run:
