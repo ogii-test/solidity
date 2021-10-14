@@ -83,7 +83,7 @@ jobs:
       - run: mv /usr/local/Homebrew/Library/Homebrew/shims/scm/ /usr/local/Homebrew/Library/Homebrew/shims/scm1/
       - restore_cache:
           keys:
-            - dependencies-osx-{{ checksum ".circleci/osx_install_dependencies.sh" }}-b
+            - dependencies-osx-{{ checksum ".circleci/osx_install_dependencies.sh" }}-c
       # DO NOT EDIT between here and save_cache, but rather edit ./circleci/osx_install_dependencies.sh
       # WARNING! If you do edit anything here instead, remember to invalidate the cache manually.
       - run: |
