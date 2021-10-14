@@ -1,8 +1,5 @@
 version: 2.1
 
-orbs:
-  win: circleci/windows@2.2.0
-
 defaults:
   - run_build: &run_build
       name: Build
@@ -76,7 +73,8 @@ jobs:
 
   b_osx:
     macos:
-      xcode: "11.0.0"
+      #xcode: "11.0.0"
+      xcode: "11.1.0"
     environment:
       TERM: xterm
       CMAKE_BUILD_TYPE: Release
